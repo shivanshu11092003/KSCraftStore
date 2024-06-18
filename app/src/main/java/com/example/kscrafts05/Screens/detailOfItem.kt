@@ -63,7 +63,7 @@ fun DetailEachItem(productX: ProductX) {
     val statusBarHeight = with(LocalDensity.current) {
         insets?.systemWindowInsetTop?.toDp() ?: 0.dp
     }
-    val price = productX.price
+    val price = productX.price*100
     val text = NumberFormat.getCurrencyInstance(Locale.getDefault()).format(price)
 
 

@@ -1,7 +1,7 @@
 package com.example.kscrafts05.Module
 
 import com.example.kscrafts05.Retrofit.Api
-import com.example.kscrafts05.Utilties.Constant.APIURL
+import com.example.kscrafts05.Util.Constant.APIURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

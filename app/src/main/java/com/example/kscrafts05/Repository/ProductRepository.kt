@@ -13,10 +13,12 @@ class ProductRepository @Inject constructor(private val api:Api) {
         get() = _products
 
     suspend fun getproducts(){
-        val response = api.getData()
+        val response = api.getData(194)
 
         if (response.isSuccessful && response.body()!=null){
             _products.emit(response.body()!!.products)
+        }else{
+
         }
     }
 }

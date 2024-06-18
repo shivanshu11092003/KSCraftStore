@@ -123,6 +123,9 @@ dependencies {
     //navigation compose iss liye add kiya hai ye view model ke object bn apaye aur view model ke object kaise bane vo hilt ki help se bannege
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    /**Google Wallet**/
+
+
 
 
 }

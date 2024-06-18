@@ -1,5 +1,6 @@
 package com.example.kscrafts05.Screens
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.kscrafts05.Model.ProductX
+import com.example.kscrafts05.Util.CircularLoader
 import com.example.kscrafts05.ViewModel.HomeViewModel
 import com.example.kscrafts05.ui.theme.Appcolor
 import com.example.kscrafts05.ui.theme.DarkBrown
@@ -53,37 +55,49 @@ import java.text.NumberFormat
 import java.util.Locale
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun HomeScreen(onClick: (ProductX) -> Unit) {
     val homeViewModel : HomeViewModel = hiltViewModel()
     val products = homeViewModel.product.collectAsState()
 
-    Box {
-        Column {
-            Row {
-                TopApp(modifier = Modifier.background(Color.White))
-            }
 
-            Row (modifier = Modifier.fillMaxSize()){
-                LazyColumn( content = {
-                    items(products.value){
-                        producteachitem(productX = it, onClick = onClick)
+        Box {
+            Column {
+                Row {
+                    TopApp(modifier = Modifier.background(Color.White))
+                }
+
+                Row (modifier = Modifier.fillMaxSize()){
+                    if (products.value.isNotEmpty()){
+                    LazyColumn( content = {
+
+                            items(products.value){
+                                producteachitem(productX = it, onClick = onClick)
+
+                            }
+
+
+
+                    },
+                        modifier = Modifier
+                            .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                            .background(Color.White)
+                    )
+
+                }else{
+                        CircularLoader()
 
                     }
-                                      },
-                    modifier = Modifier
-                        .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                        .background(Color.White))
-
+                }
             }
 
         }
 
-    }
 
 
 
-    
+
 }
 
 
@@ -131,12 +145,8 @@ fun TopApp(modifier: Modifier = Modifier) {
                     ,contentDescription = "menu")
 
             }
-
         }
     )
-
-
-
 }
 
 
@@ -156,6 +166,7 @@ fun producteachitem(productX: ProductX, onClick: (ProductX) -> Unit) {
     ){
 
 
+
         AsyncImage(model = productX.thumbnail, contentDescription = "null",
 
             alignment = Alignment.TopCenter,
@@ -164,6 +175,7 @@ fun producteachitem(productX: ProductX, onClick: (ProductX) -> Unit) {
                         .height(180.dp)
                         .background(Color.LightGray),
                 )
+
         Spacer(modifier = Modifier
             .background(Color.White)
             .height(1.dp))
@@ -229,7 +241,7 @@ fun producteachitem(productX: ProductX, onClick: (ProductX) -> Unit) {
 
         )
         Row {
-            val price = productX.price
+            val price = productX.price*100
             val text = NumberFormat.getCurrencyInstance(Locale.getDefault()).format(price)
 
             Column(modifier = Modifier
@@ -237,13 +249,13 @@ fun producteachitem(productX: ProductX, onClick: (ProductX) -> Unit) {
                 .background(Color.White)) {
                 Card {
                     Text(text = text,
-                        style = TextStyle(color = Color.Black, fontStyle = FontStyle.Normal ,fontSize = 18.sp),modifier = Modifier
+                        style = TextStyle(color = Color.Black, fontStyle = FontStyle.Normal ,fontSize = 17.sp),modifier = Modifier
                             .background(Color.White)
                             .padding(16.dp))
                 }
 
             }
-            Column() {
+            Column(modifier = Modifier.background(Color.White)) {
                 Button(onClick = { onClick(productX) },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = DarkBrown,
